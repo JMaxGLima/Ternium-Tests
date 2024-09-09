@@ -1,0 +1,45 @@
+import cv2
+import numpy as np
+import PySpin  # Spinnaker Python bindings
+
+def main():
+    # Initialize Spinnaker
+    system = PySpin.System.GetInstance()
+    cam_list = system.GetCameras()
+    
+    if cam_list.GetSize() == 0:
+        print("No cameras detected.")
+        return
+
+    camera = cam_list.GetByIndex(0)
+    camera.Init()
+    
+    # Set the camera to streaming mode
+    camera.BeginAcquisition()
+    
+    # Capture an image
+    try:
+        image_result = camera.GetNextImage()
+        if image_result.IsIncomplete():
+            print("Image incomplete: %s" % image_result.GetImageStatus())
+            return
+
+        # Convert to OpenCV format
+        width, height = image_result.GetWidth(), image_result.GetHeight()
+        image_data = image_result.GetNDArray()
+        image_result.Release()
+
+        # Display with OpenCV
+        cv2.imshow("Camera Feed", image_data)
+        cv2.waitKey(0)
+    
+    finally:
+        # Cleanup
+        camera.EndAcquisition()
+        camera.DeInit()
+        del camera
+        system.ReleaseInstance()
+        cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
