@@ -13,7 +13,7 @@ def process_frame(frame):
     edges = cv2.Canny(blurred, 50, 150)
 
     # Hough Transform to detect lines (cracks or linear defects)
-    lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 100, minLineLength=100, maxLineGap=1000)
+    lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 100, minLineLength=1000, maxLineGap=1000)
 
     # Draw detected lines
     if lines is not None:
@@ -22,7 +22,7 @@ def process_frame(frame):
             cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
     # Keypoint Detection using ORB
-    orb = cv2.ORB_create(nfeatures=10000)
+    orb = cv2.ORB_create(nfeatures=10000000)
     keypoints, descriptors = orb.detectAndCompute(gray, None)
 
     # Draw detected keypoints
@@ -44,7 +44,7 @@ def process_frame(frame):
     return frame, keypoint_image, segmentation_result
 
 # Open the video file or capture from a webcam (use 0 for webcam)
-cap = cv2.VideoCapture("/home/max/Documents/Ternium-Tests/Database/testCam/WoodTest2_Vert_0d.avi")  # Replace 'wood_video.mp4' with 0 for webcam
+cap = cv2.VideoCapture("/home/max/Documents/Ternium-Tests/Database/testCam/WoodTest0_100cm_123_.avi")  # Replace 'wood_video.mp4' with 0 for webcam
 
 # Check if the video capture opened successfully
 if not cap.isOpened():
