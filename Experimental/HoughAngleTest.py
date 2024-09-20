@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-captura = cv2.VideoCapture("/home/max/Documents/Ternium-Tests/Database/testCam/WoodTest0_100cm_123_.avi")
+captura = cv2.VideoCapture("/home/max/Documents/Ternium-Tests/Database/testCam/WoodTest2_Vert_0d.avi")
 
 if not captura.isOpened():
     print("Erro ao acessar a câmera ou o arquivo de vídeo.")
